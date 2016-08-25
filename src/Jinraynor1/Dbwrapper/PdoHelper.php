@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbwrapper;
+namespace Jinraynor1\DbWrapper;
 
 /**
  * PdoHelper

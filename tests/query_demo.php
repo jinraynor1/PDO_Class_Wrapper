@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use Dbwrapper\PdoWrapper as PdoWrapper;
-use Dbwrapper\PdoHelper as PdoHelper;
+use Jinraynor1\DbWrapper\PdoWrapper as PdoWrapper;
+use Jinraynor1\DbWrapper\PdoHelper as PdoHelper;
 
 // database connection setings
 $dbConfig = array("host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>'');

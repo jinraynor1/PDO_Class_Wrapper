@@ -1,28 +1,28 @@
 {
-    "name": "jinraynor1/dbwrapper",
-    "description": "fork of pdo wrapper from Neeraj Singh",
-    "require": {
-        "php": ">=5.3.0"
+  "name": "jinraynor1/dbwrapper",
+  "description": "pdo wrapper fork of pdo wrapper from Neeraj Singh",
+  "require": {
+    "php": ">=5.3.0",
+    "ext-pdo": "*"
+  },
+  "authors": [
+    {
+      "name": "Neeraj Singh",
+      "email": "neeraj.singh@lbi.co.in"
     },
-    "authors": [				 
-        {			 			 
-            "name": "Neeraj Singh",
-            "email": "neeraj.singh@lbi.co.in"
-        },
-		{
-			"name": "Bhaskar Rabha",
-            "email": "bhaskar.rabha@lbi.co.in"
-		},
-		{
-			"name": "Priyadarshan Salkar",
-            "email": "priyadarshan.salkar@lbi.co.in"
-		}
-    ],
-    "minimum-stability": "dev",    
-     "autoload": {
-		"psr-0": {
-			"Dbwrapper": "src/"
-		 }
-   }
-
+    {
+      "name": "Bhaskar Rabha",
+      "email": "bhaskar.rabha@lbi.co.in"
+    },
+    {
+      "name": "Priyadarshan Salkar",
+      "email": "priyadarshan.salkar@lbi.co.in"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Jinraynor1\\DbWrapper\\": "src/Jinraynor1/DbWrapper"
+    }
+  }
 }
