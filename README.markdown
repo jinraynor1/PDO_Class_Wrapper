@@ -2,8 +2,7 @@
 <h5>[A Wrapper Class of PDO]</h5>
 *Version 1.2 (Beta)*
 
-This is a fork from neerajsinghsonu/PDO_Class_Wrapper, please clone or for the original.
-
+This is a fork from neerajsinghsonu/PDO_Class_Wrapper, please see the original: https://github.com/neerajsinghsonu/PDO_Class_Wrapper
 
 
  The class was change to fit my custom needs somes changes are:
