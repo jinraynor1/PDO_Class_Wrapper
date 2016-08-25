@@ -1,4 +1,7 @@
 <?php
+
+namespace Dbwrapper;
+
 /**
  * PdoHelper
  *
@@ -40,7 +43,7 @@
  * @version    1.0 Beta
  */
 /** Class Start **/
-class PDOHelper {
+class PdoHelper {
     /**
      * function definition to convert array to xml
      * send an array and get xml
@@ -160,18 +163,20 @@ class PDOHelper {
      * Show Error to user
      */
     public function error(){
-        $style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
-        die( "<div $style >ERROR: error occurred. Please, Check you error log file.</div>" );
+        //$style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
+        //die( "<div $style >ERROR: error occurred. Please, Check you error log file.</div>" );
+        throw new \Exception("ERROR: error occurred. Please, Check you error log file");
     }
     /**
      * Show Error Array Data and stop code execution
      * @param array $data
      */
     public function errorBox( $data = array() ) {
-        $style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
-        die( "<div $style >ERROR:" . json_encode( $data ) . "</div>" );
+        //$style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
+        //die( "<div $style >ERROR:" . json_encode( $data ) . "</div>" );
+        throw new \Exception("Error en: ".json_encode( $data ));
     }
 
 }
 /** Class End **/
-?>
+
