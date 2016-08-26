@@ -212,14 +212,22 @@ class PdoWrapper extends PDO
         }
     }
 
+
+
     /**
      * Unset The Class Object PDO
      */
-    public function __destruct()
-    {
+    public function close(){
+
         self::$oPDO = null;
         //http://php.net/manual/en/pdo.connections.php#114822
+        //when you execute a prepared statement, you need to set to null the statement handler
         $this->_oSTH = null;
+
+
+        //Remember!! you also need to unset your db variable, for example:
+        //$db= New PdoWrapper();
+        //unset($db); //this calls
     }
 
 
