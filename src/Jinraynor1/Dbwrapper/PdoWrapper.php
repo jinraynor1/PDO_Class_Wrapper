@@ -169,6 +169,12 @@ class PdoWrapper extends PDO
      * @var array
      */
     private $aValidOperation = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
+
+    /**
+     * Should i skip checking for operations
+     * @var bool
+     */
+    private $validateOperations = true;
     /**
      * PDO Object
      *
@@ -212,13 +218,24 @@ class PdoWrapper extends PDO
     public function __destruct()
     {
         self::$oPDO = null;
+        //http://php.net/manual/en/pdo.connections.php#114822
+        $this->_oSTH = null;
     }
-	/**
-	* Setter for valid operations
-	*/
-	public function setAValidOperation($aValidOperation){
-		$this->aValidOperation=$aValidOperation;
-	} 
+
+
+    /**
+     * Setter for valid operations
+     */
+    public function setAValidOperation($aValidOperation)
+    {
+        $this->aValidOperation = $aValidOperation;
+    }
+
+    public function setValidateOperations($bool)
+    {
+        $this->validateOperations = $bool;
+    }
+
 
     /**
      * Get Instance of PDO Class as Singleton Pattern
@@ -227,12 +244,12 @@ class PdoWrapper extends PDO
      *
      * @return object $oPDO
      */
-    public static function getPDO($dsn,$user, $password, $attrs = array())
+    public static function getPDO($dsn, $user, $password, $attrs = array())
     {
         // if not set self pdo object property or pdo set as null
         if (!isset(self::$oPDO) || (self::$oPDO !== null)) {
             // set class pdo property with new connection
-            self::$oPDO = new self($dsn,$user, $password, $attrs);
+            self::$oPDO = new self($dsn, $user, $password, $attrs);
         }
         // return class property object
         return self::$oPDO;
@@ -334,7 +351,7 @@ class PdoWrapper extends PDO
         // make first word in uppercase
         $operation[0] = strtoupper($operation[0]);
         // check valid sql operation statement
-        if (!in_array($operation[0], $this->aValidOperation)) {
+        if ($this->validateOperations && !in_array($operation[0], $this->aValidOperation)) {
 
             self::error('invalid operation called in query. use only ' . implode(', ', $this->aValidOperation));
         }
@@ -344,14 +361,14 @@ class PdoWrapper extends PDO
             // set class property with pass query
             $this->sSql = $sSql;
 
-            if(count($aBindWhereParam) > 0){
-            // set class where array
-            $this->aData = $aBindWhereParam;
+            if (count($aBindWhereParam) > 0) {
+                // set class where array
+                $this->aData = $aBindWhereParam;
             }
             // set class pdo statement handler
             $this->_oSTH = $this->prepare($this->sSql);
 
-            if(count($aBindWhereParam) > 0) {
+            if (count($aBindWhereParam) > 0) {
                 // start binding fields
                 // bind pdo param
                 $this->_bindPdoParam($aBindWhereParam);
@@ -365,6 +382,7 @@ class PdoWrapper extends PDO
 
 
                         case 'SELECT':
+                        case 'SHOW':
                             // get affected rows by select statement
                             $this->iAffectedRows = $this->_oSTH->rowCount();
                             // get pdo result array
@@ -395,8 +413,9 @@ class PdoWrapper extends PDO
                             return $this;
                             break;
                     endswitch;
+
                     // close pdo cursor
-                    $this->_oSTH->closeCursor();
+                    $this->_oSTH->closeCursor();  //pretty but useless
                 } else {
                     self::error($this->_oSTH->errorInfo());
                 }
