@@ -139,24 +139,12 @@ class PdoWrapper extends PDO
      *
      * @var boolean
      */
-    public $log = false;
+    public $throwExceptions = false;
     /**
      * Set flag for batch insert
      * @var bool
      */
     public $batch = false;
-    /**
-     * PDO Error File
-     *
-     * @var string
-     */
-    const ERROR_LOG_FILE = 'PDO_Errors.log';
-    /**
-     * PDO SQL log File
-     *
-     * @var string
-     */
-    const SQL_LOG_FILE = 'PDO_Sql.log';
     /**
      * PDO Config/Settings
      *
@@ -1057,45 +1045,20 @@ class PdoWrapper extends PDO
     }
 
     /**
-     * Catch Error in txt file
-     *
+     * Catch Error
      * @param mixed $msg
      */
     public function error($msg)
     {
-        // log set as true
-        if ($this->log) {
-            // show executed query with error
-            $this->showQuery();
-            // die code
-            $this->helper()->errorBox($msg);
-        } else {
-            // show error message in log file
-            file_put_contents(self::ERROR_LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
-            // die with user message
-            $this->helper()->error();
+        $error_log = sprintf("%s Error: %s, Query: %s \n",date('Y-m-d H:i:s'),$msg,$this->interpolateQuery());
+        if ($this->throwExceptions) {
+            throw new \Exception($error_log);
+        } elseif($this->log) {
+            fwrite(STDERR ,$error_log);
         }
     }
 
-    /**
-     * Show executed query on call
-     * @param boolean $logfile set true if wanna log all query in file
-     * @return PdoWrapper
-     */
-    public function showQuery($logfile = false)
-    {
-        if (!$logfile) {
-            echo "<div style='color:#990099; border:1px solid #777; padding:2px; background-color: #E5E5E5;'>";
-            echo " Executed Query -> <span style='color:#008000;'> ";
-            echo $this->helper()->formatSQL($this->interpolateQuery());
-            echo "</span></div>";
-            return $this;
-        } else {
-            // show error message in log file
-            file_put_contents(self::SQL_LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
-            return $this;
-        }
-    }
+
 
     /**
      * Replaces any parameter placeholders in a query with the value of that
