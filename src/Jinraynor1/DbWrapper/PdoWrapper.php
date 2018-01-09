@@ -196,7 +196,8 @@ class PdoWrapper extends PDO
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             // get pdo error and pass on error method
-            die("ERROR in establish connection: " . $e->getMessage());
+
+            die("ERROR in establish connection($dsn): " . $e->getMessage());
         }
     }
 
